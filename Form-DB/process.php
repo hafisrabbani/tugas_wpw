@@ -20,15 +20,28 @@ switch ($action) {
         break;
 }
 
+function dd($data)
+{
+    echo '<pre>';
+    print_r($data);
+    echo '</pre>';
+    die();
+}
+
 function insert($data)
 {
     $db = new DB();
-    $query = $db->query('INSERT INTO mahasiswa (nrp, nama, prodi) VALUES (:nrp, :nama, :prodi)', [
-        'nrp' => $data['nrp'],
+    $query = $db->query('INSERT INTO mahasiswa (nrp,nama,prodi,alamat,hobi,ukm,gender,email,last_update) VALUES ( :nrp, :nama, :prodi, :alamat, :hobi, :ukm, :gender, :email, :last_update )', [
+        'nrp' => (int)$data['nrp'],
         'nama' => $data['nama'],
-        'prodi' => $data['prodi']
+        'prodi' => $data['prodi'],
+        'alamat' => $data['alamat'],
+        'hobi' => $data['hobi'],
+        'ukm' => $data['ukm'],
+        'gender' => $data['gender'],
+        'email' => $data['email'],
+        'last_update' => date('Y-m-d H:i:s')
     ]);
-
     $response = new Response(200, ($query) ? 'Data berhasil ditambahkan' : 'Data gagal ditambahkan', []);
     return $response->send();
 }
@@ -44,11 +57,17 @@ function get($id = null)
 function update($data)
 {
     $db = new DB();
-    $query = $db->query('UPDATE mahasiswa SET nrp = :nrp, nama = :nama, prodi = :prodi WHERE id = :id', [
+    $query = $db->query('UPDATE mahasiswa SET nrp = :nrp, nama = :nama, prodi = :prodi, alamat = :alamat, hobi = :hobi, ukm = :ukm, gender = :gender, email = :email, last_update = :last_update WHERE id = :id', [
         'id' => $data['id'],
         'nrp' => $data['nrp'],
         'nama' => $data['nama'],
-        'prodi' => $data['prodi']
+        'prodi' => $data['prodi'],
+        'alamat' => $data['alamat'],
+        'hobi' => $data['hobi'],
+        'ukm' => $data['ukm'],
+        'gender' =>  $data['gender'],
+        'email' => $data['email'],
+        'last_update' => date('Y-m-d H:i:s')
     ]);
 
 
